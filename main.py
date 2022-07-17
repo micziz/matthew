@@ -7,6 +7,7 @@ import click
 from src._parser_ import Parser
 from src.interpreter import Interpreter
 from src.lexer import Lexer
+from sys import exit
 
 # Create a click command
 @click.command()
@@ -16,26 +17,36 @@ from src.lexer import Lexer
 @click.option("--stext", "-ST", is_flag=True, help="Save operation to text")
 # whether to save to operations.txt (default yes)
 @click.option("--nosave", "-NS", is_flag=True, help="Don't save in operations.py")
+@click.option("--ast", is_flag=True, help="Generate just the Abstract Syntax Tree")
+@click.option("--jlexer", "-JL", is_flag=True, help="Run just the lexer")
 # Operate function.
-def operate(operation, stext, nosave):
+def operate(operation, stext, nosave, ast, jlexer):
     # Try except for errors
     try:
         # Operation is what is passed in --operation (if not passed it will be prompted)
         text = operation
-        # Initialize the lexer class, with text passed as parameters
-        lexer = Lexer(text)
-        # Generate all tokens
-        tokens = lexer.generate_tokens()
+        if jlexer:
+            # Initialize the lexer class, with text passed as parameters
+            lexer = Lexer(text)
+            # Generate all tokens
+            tokens = lexer.generate_tokens()
+            click.echo(list(tokens))
+            exit()
+        else:
+            lexer = Lexer(text)
+            # Generate all tokens
+            tokens = lexer.generate_tokens()
         # Initialize the parser class, with tokens passed as parameters
         parser = Parser(tokens)
         # Generate a tree
         tree = parser.parse()
-        # Initialize the interpreter class
-        interpreter = Interpreter()
-        # Interpret the tree and send it to value
-        value = interpreter.visit(tree)
-        # Filename, needed for later
-        filename = "save.txt"
+        if not ast:
+            # Initialize the interpreter class
+            interpreter = Interpreter()
+            # Interpret the tree and send it to value
+            value = interpreter.visit(tree)
+            # Filename, needed for later
+            filename = "save.txt"
         # If the --stext (save text) option is passed:
         if stext:
             # Open save.txt
@@ -46,7 +57,10 @@ def operate(operation, stext, nosave):
             click.echo(f"Saved in {filename}")
         # Else, simply print the result
         else:
-            click.echo(value)
+            if not ast:
+                click.echo(value)
+            else:
+                click.echo(tree)
         # If the option --nosave is not passed
         if not nosave:
             # Then open operations.txt
