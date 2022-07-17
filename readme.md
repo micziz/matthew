@@ -40,7 +40,7 @@ cd matthew
 Install dependencies
 
 ```
-python3 main.py --help
+pip3 install -r requirements.txt
 ```
 
 Then run main.py
