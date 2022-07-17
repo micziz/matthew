@@ -1,4 +1,3 @@
-from email.policy import default
 import click
 from src._parser_ import Parser
 from src.interpreter import Interpreter
@@ -18,11 +17,15 @@ def operate(operation, stext):
         tree = parser.parse()
         interpreter = Interpreter()
         value = interpreter.visit(tree)
+        filename = "save.txt"
         if stext:
             with open("save.txt", "at") as f:
                 f.write(f"\n{value}")
+            click.echo(f"Saved in {filename}")
         else:
             click.echo(value)
+        with open("operations.txt", "at") as f:
+            f.write(f"\n{operation}") 
     except Exception as e:
         click.echo(e)
         
