@@ -17,7 +17,9 @@ from sys import exit
 @click.option("--stext", "-ST", is_flag=True, help="Save operation to text")
 # whether to save to operations.txt (default yes)
 @click.option("--nosave", "-NS", is_flag=True, help="Don't save in operations.py")
+# whether to generate just the ast
 @click.option("--ast", is_flag=True, help="Generate just the Abstract Syntax Tree")
+# whether to run just the lexer
 @click.option("--jlexer", "-JL", is_flag=True, help="Run just the lexer")
 # Operate function.
 def operate(operation, stext, nosave, ast, jlexer):
