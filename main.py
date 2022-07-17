@@ -43,7 +43,16 @@ def operate(operation, stext, nosave, ast, jlexer, version, verbose, silent):
             lexer = Lexer(text)
             # Generate all tokens
             tokens = lexer.generate_tokens()
-            click.echo(list(tokens))
+            if stext:
+                if verbose:
+                    click.echo("Saving in file")
+                # Open save.txt
+                with open("save.txt", "at") as f:
+                    f.write("\n")
+                    for token in tokens:
+                        f.write(str(f"{token} "))
+            else:
+                click.echo(list(tokens))
             exit()
         else:
             lexer = Lexer(text)
