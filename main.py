@@ -1,18 +1,25 @@
+import click
 from src._parser_ import Parser
 from src.interpreter import Interpreter
 from src.lexer import Lexer
 
-while True:
+
+@click.command()
+@click.option('--operation', prompt='Operation',
+              help='Operation To interpret.')
+def operate(operation):
     try:
-        text = input("matthew > ")
+        text = operation
         lexer = Lexer(text)
         tokens = lexer.generate_tokens()
         parser = Parser(tokens)
         tree = parser.parse()
-        if not tree: continue
         interpreter = Interpreter()
         value = interpreter.visit(tree)
-        print(value)
+        click.echo(value)
     except Exception as e:
-        print(e)
+        click.echo(e)
+        
+if __name__ == '__main__':
+    operate()
         
