@@ -26,8 +26,10 @@ from sys import exit
 @click.option("--version", is_flag=True, help="Print Version")
 # whether to be verbose
 @click.option("--verbose", "-V", is_flag=True, help="Be more verbose")
+# whether to be silent
+@click.option("--silent", "-S", is_flag=True, help="Be more silent")
 # Operate function.
-def operate(operation, stext, nosave, ast, jlexer, version, verbose):
+def operate(operation, stext, nosave, ast, jlexer, version, verbose, silent):
     _version_ = "0.2.0"
     if version:
         print(f"matthew version {_version_}")
@@ -71,8 +73,9 @@ def operate(operation, stext, nosave, ast, jlexer, version, verbose):
             with open(filename, "at") as f:
                 # Save the result of the operation
                 f.write(f"\n{value}")
-            # Print that it has been saved.
-            click.echo(f"Saved in {filename}")
+            if silent:
+                # Print that it has been saved.
+                click.echo(f"Saved in {filename}")
         # Else, simply print the result
         else:
             if not ast:
