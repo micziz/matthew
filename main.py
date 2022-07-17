@@ -3,7 +3,6 @@
 
 
 # Imports
-from time import sleep
 import click
 from src._parser_ import Parser
 from src.interpreter import Interpreter
@@ -64,7 +63,7 @@ def operate(operation, stext, nosave, ast, jlexer, version, verbose, silent):
             # Interpret the tree and send it to value
             value = interpreter.visit(tree)
             # Filename, needed for later
-            filename = "save.txt"
+        filename = "save.txt"
         # If the --stext (save text) option is passed:
         if stext:
             if verbose:
@@ -72,7 +71,10 @@ def operate(operation, stext, nosave, ast, jlexer, version, verbose, silent):
             # Open save.txt
             with open(filename, "at") as f:
                 # Save the result of the operation
-                f.write(f"\n{value}")
+                if not ast:
+                    f.write(f"\n{value}")
+                elif ast:
+                    f.write(f"\n{tree}")
             if silent:
                 # Print that it has been saved.
                 click.echo(f"Saved in {filename}")
