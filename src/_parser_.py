@@ -55,7 +55,7 @@ class Parser:
         # Return result
         return result
 
-    # Expression
+    # Expression method
     def expr(self):
         # Call a term and set it to result
         result = self.term()
@@ -70,33 +70,52 @@ class Parser:
             if self.current_token.type == TokenType.PLUS:
                 # Advance
                 self.advance()
-                # Return a addNode and assign it to result.
+                # Return a SddNode and assign it to result.
                 # Also, we pass result, and a term
                 result = AddNode(result, self.term())
-            # Elif the
+            # Else the token type is minus
             elif self.current_token.type == TokenType.MINUS:
+                # Advance
                 self.advance()
+                # Return a SubtractNode and assign it to result.
+                # Also, we pass result, and a term
                 result = SubtractNode(result, self.term())
 
+        # Return result
         return result
 
+    # Term method
     def term(self):
+        # Result is factor method
         result = self.factor()
 
+        # While the current token is not not none
+        # and the current token is either multply or divide
         while self.current_token != None and self.current_token.type in (
             TokenType.MULTIPLY,
             TokenType.DIVIDE,
         ):
+            # If it's multiply
             if self.current_token.type == TokenType.MULTIPLY:
+                # Advance
                 self.advance()
+                # Return a MultiplyNode and assign it to result.
+                # Also, we pass result, and a factor
                 result = MultiplyNode(result, self.factor())
+            # If it's divide
             elif self.current_token.type == TokenType.DIVIDE:
+                # Advance
                 self.advance()
+                # Return a DivideNode and assign it to result.
+                # Also, we pass result, and a factor
                 result = DivideNode(result, self.factor())
 
+        # Return result
         return result
 
+    # Factor Method
     def factor(self):
+        # Assign tokens
         token = self.current_token
 
         if token.type == TokenType.LPAREN:
