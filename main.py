@@ -1,3 +1,4 @@
+from email.policy import default
 import click
 from src._parser_ import Parser
 from src.interpreter import Interpreter
@@ -7,7 +8,8 @@ from src.lexer import Lexer
 @click.command()
 @click.option('--operation', prompt='Operation',
               help='Operation To interpret.')
-def operate(operation):
+@click.option('--stext', is_flag=True, help="Save operation to text")
+def operate(operation, stext):
     try:
         text = operation
         lexer = Lexer(text)
@@ -16,7 +18,11 @@ def operate(operation):
         tree = parser.parse()
         interpreter = Interpreter()
         value = interpreter.visit(tree)
-        click.echo(value)
+        if stext:
+            with open("save.txt", "at") as f:
+                f.write(f"\n{value}")
+        else:
+            click.echo(value)
     except Exception as e:
         click.echo(e)
         
