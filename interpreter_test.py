@@ -43,4 +43,3 @@ class TestInterpreter(TestCase):
         
         result =  Interpreter().visit(tree)
         self.assertAlmostEqual(result.value, -2360.08, 2)
-        # -2360.08
