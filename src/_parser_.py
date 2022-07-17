@@ -1,33 +1,58 @@
+# This is the parser file, containing the parser. The reason that the files name is _parser_ is to avoid conflicts
+# With a python inbuilt function. All code inside this, unless otherwise noted, is licensed under Apache 2.0 License.
+
+# Imports
 from src.tokens import TokenType
 from src.nodes import *
 
+# Start of the parser class
 class Parser:
     
+    # Constructor
     def __init__(self, tokens):
+        # Start an iteration of tokens
         self.tokens = iter(tokens)
+        # Advance to the next token (in this case to the first token)
         self.advance()
     
-    def raise_error(self):
-        raise Exception("Invalid Syntax Error")
+    # Raise error method
+    def raise_error(self, e):
+        # Raise a invalid exception.
+        raise Exception(f"""
+    Invalid Syntax Error
+    {e}
+""")
         
-    
+    # Advance method
     def advance(self):
+        # Try
         try:
+            # Advance using the next() by python
             self.current_token = next(self.tokens)
+        # Except the iteration ended
         except StopIteration:
+            # Assign the current token to none
             self.current_token = None
     
+    # Parse method (entry point for the parser)
     def parse(self):
+        # If the current token is none
         if self.current_token == None:
+            # Return none
             return None
         
+        # Run the expression method and assign it to result
         result = self.expr()
         
+        # If the current token is not none
         if self.current_token != None:
-            self.raise_error()
+            # Raise an error
+            self.raise_error("Token Not none!")
         
+        # Return result
         return result
     
+    # Expr
     def expr(self):
         result = self.term()
         
@@ -62,7 +87,7 @@ class Parser:
             result = self.expr()
             
             if self.current_token.type != TokenType.RPAREN:
-                self.raise_error()
+                self.raise_error(f"Expected RPAREN found {token}")
             
             self.advance()
             return result
@@ -78,5 +103,7 @@ class Parser:
             self.advance()
             return MinusNode(self.factor())
 
-        self.raise_error()
+        self.raise_error(f"Expected Term, found {token}")
+    
+
         

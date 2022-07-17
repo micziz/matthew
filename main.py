@@ -63,7 +63,7 @@ def operate(operation, stext, nosave):
         # Print error
         click.echo(e)
     
-# Run the main Function
+# Run the main function
 if __name__ == '__main__':
     operate()
         
