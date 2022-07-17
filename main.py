@@ -11,12 +11,11 @@ from src.lexer import Lexer
 # Create a click command
 @click.command()
 # Option for the prompt
-@click.option('--operation', prompt='Operation',
-              help='Operation To interpret.')
+@click.option("--operation", prompt="Operation", help="Operation To interpret.")
 # whether to save to text
-@click.option('--stext', is_flag=True, help="Save operation to text")
+@click.option("--stext", is_flag=True, help="Save operation to text")
 # whether to save to operations.txt (default yes)
-@click.option('--nosave', is_flag=True, help="Don't save in operations.py")
+@click.option("--nosave", is_flag=True, help="Don't save in operations.py")
 # Operate function.
 def operate(operation, stext, nosave):
     # Try except for errors
@@ -53,7 +52,7 @@ def operate(operation, stext, nosave):
             # Then open operations.txt
             with open("operations.txt", "at") as f:
                 # and save the just inputted operation
-                f.write(f"\n{operation}") 
+                f.write(f"\n{operation}")
         # Else
         else:
             # Print that it is not going to save to operations.txt
@@ -62,8 +61,8 @@ def operate(operation, stext, nosave):
     except Exception as e:
         # Print error
         click.echo(e)
-    
+
+
 # Run the main function
-if __name__ == '__main__':
+if __name__ == "__main__":
     operate()
-        
