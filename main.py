@@ -21,17 +21,14 @@ from sys import exit
 @click.option("--ast", is_flag=True, help="Generate just the Abstract Syntax Tree")
 # whether to run just the lexer
 @click.option("--jlexer", "-JL", is_flag=True, help="Run just the lexer")
-# whether to print version
-@click.option("--version", is_flag=True, help="Print Version")
 # whether to be verbose
 @click.option("--verbose", "-V", is_flag=True, help="Be more verbose")
 # whether to be silent
 @click.option("--silent", "-S", is_flag=True, help="Be more silent")
 # Operate function.
-def operate(operation, stext, nosave, ast, jlexer, version, verbose, silent):
+def operate(operation, stext, nosave, ast, jlexer, verbose, silent):
     _version_ = "0.2.0"
-    if version:
-        print(f"matthew version {_version_}")
+    click.echo(f"matthew version {_version_}")
     # Try except for errors
     try:
         # Operation is what is passed in --operation (if not passed it will be prompted)
@@ -53,6 +50,7 @@ def operate(operation, stext, nosave, ast, jlexer, version, verbose, silent):
                         f.write(str(f"{token} "))
             else:
                 click.echo(list(tokens))
+            click.echo("Saving the input to operations.txt")
             with open("operations.txt", "at") as f:
                 f.write(f"\n{operation} (just lexer)")
             exit()
