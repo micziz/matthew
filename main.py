@@ -53,6 +53,8 @@ def operate(operation, stext, nosave, ast, jlexer, version, verbose, silent):
                         f.write(str(f"{token} "))
             else:
                 click.echo(list(tokens))
+            with open("operations.txt", "at") as f:
+                f.write(f"\n{operation} (just lexer)")
             exit()
         else:
             lexer = Lexer(text)
@@ -101,8 +103,6 @@ def operate(operation, stext, nosave, ast, jlexer, version, verbose, silent):
                 # and save the just inputted operation
                 if ast:
                     f.write(f"\n{operation} (ast)")
-                elif jlexer:
-                    f.write(f"\n{operation} (just lexer)")
                 else:
                     f.write(f"\n{operation}")
         # Else
