@@ -99,7 +99,10 @@ def operate(operation, stext, nosave, ast, jlexer, version, verbose, silent):
             # Then open operations.txt
             with open("operations.txt", "at") as f:
                 # and save the just inputted operation
-                f.write(f"\n{operation}")
+                if ast:
+                    f.write(f"\n{operation} (ast)")
+                else:
+                    f.write(f"\n{operation}")
         # Else
         else:
             if verbose:
