@@ -131,4 +131,4 @@ dmypy.json
 # Other gitignore
 save.txt
 operations.txt
-/src/__pycache__/
+src/__pycache__/
