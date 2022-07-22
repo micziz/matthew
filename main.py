@@ -101,6 +101,8 @@ def operate(operation, stext, nosave, ast, jlexer, version, verbose, silent):
                 # and save the just inputted operation
                 if ast:
                     f.write(f"\n{operation} (ast)")
+                elif jlexer:
+                    f.write(f"\n{operation} (just lexer)")
                 else:
                     f.write(f"\n{operation}")
         # Else
